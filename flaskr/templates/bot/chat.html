@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Chatbot{% endblock %}
+
+{% block header %}
+  <h2>College Chatbot</h2>
+{% endblock %}
+
+{% block content %}
+  <form id="chat-form">
+    <input type="text" id="msg" name="message" placeholder="Ask me anything..." required>
+    <button type="submit">Send</button>
+  </form>
+
+  <div id="reply" style="margin-top: 10px;"></div>
+
+  <script>
+    document.getElementById("chat-form").addEventListener("submit", async function(e) {
+      e.preventDefault();  
+
+      const message = document.getElementById("msg").value;
+
+      const res = await fetch("/chatbot/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message })
+      });
+
+      const data = await res.json();
+      document.getElementById("reply").innerText = data.reply;
+    });
+  </script>
+{% endblock %}
