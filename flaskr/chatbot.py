@@ -115,7 +115,7 @@ def ask():
    
     
     answer = response.output_text
-    print(prompt)
+    #print(prompt)
     # print(user_message)
     # print(answer)
     return jsonify({"reply": answer})

@@ -32,7 +32,7 @@ def register():
                     (email, username, generate_password_hash(password)),
                 )
                 db.commit()
-                flash('You were successfully Registered!', 'success')
+                flash('You were successfully Registered!!, Please login to access chatbot Assistant ', 'success')
             except db.IntegrityError:
                 error = f"Student {username} is already registered."
             else:

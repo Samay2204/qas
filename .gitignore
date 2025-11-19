@@ -2,3 +2,9 @@
 venv/
 *.env
 .env
+client_secrets.json
+token.json
+flaskr/uploads/
+flaskr/info.txt
+flaskr/info.json
+flaskr/uploads_data.json
