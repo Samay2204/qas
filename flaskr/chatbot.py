@@ -1,7 +1,7 @@
 
 
 from flask import (
-    Blueprint, request, jsonify, render_template
+    Blueprint, request, jsonify, render_template, session, redirect
 )
 
 import os
@@ -65,6 +65,10 @@ def extract_relevant_info_from_json(user_query, jsoninfo_file_path):
 
 @bp.route('/')
 def chat_page():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect('/auth/login')
+    
     return render_template('bot/chat.html')
 
 
