@@ -3,7 +3,7 @@
 {% block title %}Chat – ISH{% endblock %}
 
 {% block content %}
-<div style="max-width:900px;margin:2rem auto;background:#0b0b0b;border-radius:12px;box-shadow:0 0 15px rgba(74,112,169,0.5);padding:2rem;">
+<div style="max-width:100%; width:900px;margin:2rem auto;background:#0b0b0b;border-radius:12px;box-shadow:0 0 15px rgba(74,112,169,0.5);padding:2rem;">
   <h2 style="color:#8FABD4;text-align:center;margin-bottom:1rem;">Chat with ISH</h2>
 
   <div id="chat-box" style="background:#111;border-radius:10px;padding:1rem;min-height:400px;overflow-y:auto;color:#EFECE3;">
@@ -15,7 +15,7 @@
     <button type="submit" style="padding:0.8rem 1.5rem;background:#4A70A9;color:#EFECE3;border:none;border-radius:8px;cursor:pointer;transition:0.3s;">Send</button>
   </form>
 </div>
-
+<!-- 
 <script>
   const chatBox = document.getElementById("chat-box");
 
@@ -45,5 +45,68 @@
 
     chatBox.scrollTop = chatBox.scrollHeight;
   }
+</script> -->
+
+<script>
+  const chatBox = document.getElementById("chat-box");
+
+  // small helper: convert plain URLs into <a> tags that open in new tab
+  function linkify(text) {
+    const urlRegex = /(\bhttps?:\/\/[^\s<]+)/gi;
+    return text.replace(urlRegex, url =>
+      `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+    );
+  }
+
+  async function sendMessage(event) {
+    event.preventDefault();
+    const input = document.getElementById("message");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    // user message (kept as text for safety)
+    const userMsg = document.createElement("div");
+    userMsg.textContent = msg;
+    userMsg.style = "background:#4A70A9;color:#EFECE3;padding:0.7rem 1rem;border-radius:10px;margin:0.5rem 0;align-self:flex-end;display:inline-block;float:right;clear:both;";
+    chatBox.appendChild(userMsg);
+    input.value = "";
+
+    const res = await fetch("/chatbot/ask", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({message: msg})
+    });
+    const data = await res.json();
+
+    // bot message — insert HTML so anchors render clickable
+    const botMsg = document.createElement("div");
+    botMsg.style = "background:#8FABD4;color:#000;padding:0.7rem 1rem;border-radius:10px;margin:0.5rem 0;align-self:flex-start;display:inline-block;float:left;clear:both;";
+
+    // If backend returns HTML (e.g. '<a href=...>'), use it directly.
+    // Otherwise, convert plain-text URLs to links with linkify().
+    const reply = data.reply || "";
+    const looksLikeHtml = /<\/?[a-z][\s\S]*>/i.test(reply);
+    botMsg.innerHTML = looksLikeHtml ? reply : linkify(escapeHtml(reply));
+
+    chatBox.appendChild(botMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  // escape text to avoid XSS when we later convert URLs
+  function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<>"'`=\/]/g, function (s) {
+      return ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+      })[s];
+    });
+  }
 </script>
+
 {% endblock %}

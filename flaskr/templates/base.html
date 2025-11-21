@@ -11,6 +11,8 @@
       --primary: #4A70A9;
       --secondary: #8FABD4;
       --light: #EFECE3;
+      --muted: #bfcbdc;
+      --card-bg: rgba(255,255,255,0.03);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
@@ -21,6 +23,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.45;
     }
 
     nav {
@@ -50,10 +53,10 @@
     nav a:hover { color: var(--secondary); }
 
     nav a[href*="upload"]:hover {
-    background-color: var(--primary);
-    color: var(--light);
-    transform: scale(1.05);
-   }
+      background-color: var(--primary);
+      color: var(--light);
+      transform: scale(1.05);
+    }
 
     footer {
       background-color: var(--primary);
@@ -63,9 +66,121 @@
       margin-top: auto;
     }
 
-    .content { padding: 2rem; flex: 1; }
+    .content { padding: 2rem; flex: 1; max-width: 1400px; margin: 0 auto; }
 
-    
+    /* NEW FRONT PAGE LAYOUT */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2rem;
+      align-items: center;
+      margin-top: 1.5rem;
+      background: linear-gradient(180deg, rgba(74,112,169,0.06), transparent 40%);
+      padding: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .hero .hero-left h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--light);
+    }
+
+    .hero .hero-left p.lead {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      max-width: 64ch;
+    }
+
+    .hero .actions {
+      display:flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      background: var(--secondary);
+      color: #000;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform .18s ease, opacity .18s;
+    }
+    .btn.secondary {
+      background: transparent;
+      color: var(--light);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .btn:hover { transform: translateY(-3px); }
+
+    .hero .hero-right {
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.03);
+      background: var(--card-bg);
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    /* Quick facts cards */
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-top: 1.75rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+    .card h3 { margin-bottom: 0.45rem; font-size: 1.05rem; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    .grid-2 {
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .section-title {
+      display:flex;
+      align-items:center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      margin-bottom: .5rem;
+    }
+    .section-title h3 { font-size:1.1rem; }
+
+    .contact {
+      padding: 1rem;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(138,152,179,0.03), transparent);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .muted { color: var(--muted); font-size: 0.95rem; }
+
+    /* responsive */
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero .hero-right { height: 220px; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* intro overlay */
     #intro {
       position: fixed;
       top: 0; left: 0;
@@ -82,30 +197,55 @@
     }
 
     .alert {
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
 
     .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
 
     .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
 
-    
     @keyframes pop {
       0% { opacity: 0; transform: scale(0.6); }
       100% { opacity: 1; transform: scale(1); }
     }
     @keyframes fadeOut {
       to { opacity: 0; visibility: hidden; }
+    }
+
+    /* Glassy background wrapper (added) */
+    .glass-bg {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 14px;
+      padding: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+    }
+
+    /* Hover effect for the glass wrapper */
+    .glass-bg:hover {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6), 0 6px 30px rgba(138,152,179,0.06);
+    }
+
+    /* Slightly reduce intensity on small screens */
+    @media (max-width: 520px) {
+      .glass-bg { padding: 0.8rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+      .glass-bg:hover { transform: translateY(-3px); }
     }
   </style>
 </head>
@@ -116,7 +256,7 @@
 
 
 <nav>
-  <h1>ISH – IET STUDENT HELP</h1>
+  <h1><a href="{{ url_for('home') }}">ISH – IET STUDENT HELP</a></h1>
   <ul>
     {% if session.get('user_id') %}
     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
@@ -147,7 +287,131 @@
         {% endif %}
     {% endwith %}
 
-  <section class="content">{% block content %}{% endblock %}</section>
+  <section class="content">
+    {# FRONT PAGE CONTENT: shown on home route #}
+    {% if request.endpoint == 'home' %}
+      <main>
+        <!-- Glass wrapper around hero -->
+        <div class="glass-bg" aria-hidden="false">
+          <div class="hero" role="region" aria-label="IET DAVV overview">
+            <div class="hero-left">
+              <h2>IET DAVV Indore — Institute of Engineering & Technology</h2>
+              <p class="lead">
+                The Institute of Engineering & Technology (IET), Devi Ahilya Vishwavidyalaya (DAVV), Indore is a leading engineering campus offering undergraduate, postgraduate and research programs across multiple engineering branches.
+                This student help portal (ISH) is created to support IET students — find notes, upload resources, chat with campus helpers, and access quick links for academic and campus services.
+              </p>
+
+              <div class="actions">
+                <a class="btn" href="{{ url_for('upload.upload_form') }}">Upload Resources</a>
+                <a class="btn secondary" href="{{ url_for('chatbot.chat_page') }}">Chat with ISH</a>
+              </div>
+
+              <div class="section-title" style="margin-top:1.25rem">
+                <h3>Quick overview</h3>
+              </div>
+
+              <div class="quick-facts" aria-hidden="false">
+                <div class="card">
+                  <h3>Established</h3>
+                  <p class="muted">IET as part of DAVV — established to foster technical education, research and industry collaboration.</p>
+                </div>
+
+                <div class="card">
+                  <h3>Programs</h3>
+                  <p class="muted">B.Tech, M.Tech, MBA, MCA, and Ph.D. programs across core and applied disciplines.</p>
+                </div>
+
+                <div class="card">
+                  <h3>Campus life</h3>
+                  <p class="muted">Active student clubs, sports facilities, cultural fests, and technical events throughout the year.</p>
+                </div>
+
+                <div class="card">
+                  <h3>Placements</h3>
+                  <p class="muted">Strong industry ties and placement support for internships and campus recruitment.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-right" aria-hidden="false">
+              <!-- Replace this file in your static folder with a high-quality college photo -->
+              <img src="{{ url_for('static', filename='images/iet_davv.jpg') }}" alt="IET DAVV Indore campus photo">
+            </div>
+          </div>
+        </div>
+        <!-- end glass wrapper around hero -->
+
+        <!-- Glass wrapper around grid-2 -->
+        <div class="glass-bg" style="margin-top:1.5rem;">
+          <div class="grid-2">
+            <div>
+              <div class="section-title"><h3>Departments & Facilities</h3></div>
+              <div class="card">
+                <p class="muted">
+                  IET DAVV hosts departments like Computer Science, Electronics, Mechanical, Civil, Information Technology, and allied labs.
+                  Facilities include modern labs, library with digital access, auditorium, sports ground, hostels, canteen, and Wi-Fi enabled campus.
+                </p>
+
+                <div style="margin-top:1rem; display:flex; gap:0.6rem; flex-wrap:wrap;">
+                  <span class="card" style="padding:0.5rem 0.75rem; border-radius:8px;">Library</span>
+                  <span class="card" style="padding:0.5rem 0.75rem; border-radius:8px;">Research labs</span>
+                  <span class="card" style="padding:0.5rem 0.75rem; border-radius:8px;">Workshops</span>
+                  <span class="card" style="padding:0.5rem 0.75rem; border-radius:8px;">Clubs & Events</span>
+                </div>
+              </div>
+
+              <div class="section-title"><h3>How ISH helps</h3></div>
+              <div class="card" style="margin-top:0.6rem;">
+                <p class="muted">
+                  This portal gathers student-shared notes, solved assignments, practice problems, and provides a campus-focused chatbot for quick help about timetables, upload/download of resources, and common student queries.
+                </p>
+                <ul style="margin-top:.75rem; color:var(--muted);">
+                  <li>Submit and download study materials</li>
+                  <li>Ask the chatbot about campus services</li>
+                  <li>Get notified for events and results (via future features)</li>
+                </ul>
+              </div>
+            </div>
+
+            <aside>
+              <div class="section-title"><h3>Contact & Visit</h3></div>
+
+              <div class="contact">
+                <p class="muted"><strong>Institute of Engineering & Technology (IET)</strong><br>
+                  Devi Ahilya Vishwavidyalaya, Indore</p>
+
+                <p class="muted" style="margin-top:0.6rem;">
+                  Main campus address and phone numbers can be added here. For now, use the official DAVV website and campus office contacts for precise directions.
+                </p>
+
+                <div style="margin-top:0.9rem;">
+                  <a class="btn" href="#" style="display:inline-block; margin-bottom:.4rem;">Official DAVV site</a>
+                  <a class="btn secondary" href="{{ url_for('chatbot.chat_page') }}" style="display:inline-block;">Ask ISH</a>
+                </div>
+              </div>
+
+              <div style="margin-top:1rem;">
+                <div class="card">
+                  <h3>Student Support</h3>
+                  <p class="muted">Counselling, academics office, placement cell, and disciplinary office contact details can be published here for registered users.</p>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <!-- end glass wrapper around grid-2 -->
+
+      </main>
+
+      <style>
+        /* tiny extra spacing for page bottom */
+        .content { padding-bottom: 3.5rem; }
+      </style>
+    {% else %}
+      {# If not on home, render the usual block content inside the content area #}
+      {% block content %}{% endblock %}
+    {% endif %}
+  </section>
 
   <footer>
     &copy; {{ 2025 }} ISH – IET STUDENT HELP | Made for IET Students
